@@ -1,0 +1,32 @@
+services:
+  web:
+    build: .                # <--- au lieu de image: php:8.2-apache
+    container_name: Login
+    volumes:
+      - ./src:/var/www/html:rw
+      # (retire la ligne du php.ini si tu ne l’utilises pas)
+    environment:
+      VIRTUAL_HOST: api.nejara.fr
+      LETSENCRYPT_HOST: api.nejara.fr
+      VIRTUAL_PORT: 80
+      APP_DB_HOST: mariadb
+      APP_DB_NAME: ph-preprod
+      APP_DB_USER: root
+      APP_DB_PASS: Lamyc@314159265358979
+    expose:
+      - "80"
+    networks:
+      - proxy
+      - dbnet
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost/ || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+
+networks:
+  proxy:
+    external: true
+  dbnet:
+    external: true
