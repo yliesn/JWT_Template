@@ -45,7 +45,7 @@ if (!$new_role) {
 }
 
 // Valide les rôles autorisés
-$allowed_roles = ['user', 'admin', 'moderator'];
+$allowed_roles = ['UTILISATEUR', 'ADMIN', 'VISITEUR'];
 if (!in_array($new_role, $allowed_roles, true)) {
     json_response(['error' => 'Rôle invalide. Rôles autorisés: ' . implode(', ', $allowed_roles)], 400);
 }
