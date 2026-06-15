@@ -19,15 +19,15 @@ if (!$login || !$password) {
 }
 
 $pdo  = getDB();
-$stmt = $pdo->prepare('SELECT id, nom, prenom, login, mot_de_passe, role, actif FROM UTILISATEUR WHERE login = ? LIMIT 1');
+$stmt = $pdo->prepare('SELECT id, last_name, first_name, login, password, role, active FROM users WHERE login = ? LIMIT 1');
 $stmt->execute([$login]);
 $user = $stmt->fetch();
 
-if (!$user || !password_verify($password, $user['mot_de_passe'])) {
+if (!$user || !password_verify($password, $user['password'])) {
     json_response(['error' => 'Identifiants invalides'], 401);
 }
 
-if (!$user['actif']) {
+if (!$user['active']) {
     json_response(['error' => 'Compte désactivé'], 403);
 }
 
@@ -40,10 +40,10 @@ $token = jwt_create([
 json_response([
     'token' => $token,
     'user'  => [
-        'id'     => $user['id'],
-        'nom'    => $user['nom'],
-        'prenom' => $user['prenom'],
-        'login'  => $user['login'],
-        'role'   => $user['role'],
+        'id'         => $user['id'],
+        'last_name'  => $user['last_name'],
+        'first_name' => $user['first_name'],
+        'login'      => $user['login'],
+        'role'       => $user['role'],
     ],
 ]);

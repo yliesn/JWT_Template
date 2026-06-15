@@ -20,7 +20,7 @@ if (!$payload) {
 
 // Récupère l'utilisateur depuis la base de données
 $pdo  = getDB();
-$stmt = $pdo->prepare('SELECT id, nom, prenom, login, role, actif, date_derniere_connexion FROM UTILISATEUR WHERE id = ? LIMIT 1');
+$stmt = $pdo->prepare('SELECT id, last_name, first_name, login, role, active, last_login_date FROM users WHERE id = ? LIMIT 1');
 $stmt->execute([$payload['sub']]);
 $user = $stmt->fetch();
 
@@ -30,12 +30,12 @@ if (!$user) {
 
 json_response([
     'user' => [
-        'id'                      => $user['id'],
-        'nom'                     => $user['nom'],
-        'prenom'                  => $user['prenom'],
-        'login'                   => $user['login'],
-        'role'                    => $user['role'],
-        'actif'                   => $user['actif'],
-        'date_derniere_connexion' => $user['date_derniere_connexion'],
+        'id'               => $user['id'],
+        'last_name'        => $user['last_name'],
+        'first_name'       => $user['first_name'],
+        'login'            => $user['login'],
+        'role'             => $user['role'],
+        'active'           => $user['active'],
+        'last_login_date'  => $user['last_login_date'],
     ],
 ]);
