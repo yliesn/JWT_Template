@@ -33,7 +33,7 @@
 </div>
 
 <script>
-  const API = '../api'; // adapter si besoin
+  const API = '/api'; // adapter si besoin
 
   // Redirige si déjà connecté
   if (localStorage.getItem('jwt')) window.location = 'dashboard.html';
@@ -65,7 +65,7 @@
 
       localStorage.setItem('jwt', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
-      window.location = 'dashboard.html';
+      window.location = 'front/dashboard.html';
 
     } catch (e) {
       showAlert('Impossible de contacter le serveur.', 'danger');
